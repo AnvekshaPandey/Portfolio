@@ -216,6 +216,67 @@ canvas#bgc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-
 .pdbullet{display:flex;gap:10px;align-items:flex-start}
 .pddot{width:5px;height:5px;border-radius:50%;background:#c9a227;flex-shrink:0;margin-top:7px}
 .pdbtxt{text-align:justify;font-family:"DM Sans",sans-serif;font-size:12px;color:#4a4a4a;line-height:1.8}
+@media (max-width: 768px) {
+  #navwrap{top:12px}
+  #topnav{padding:8px 14px;gap:8px}
+  .nav-links{gap:2px}
+  .nav-links a{font-size:10px;padding:5px 8px;letter-spacing:0}
+  .nav-div{margin:0 6px}
+  .nav-icons{gap:8px}
+  #contact-pill{top:12px;right:12px}
+  #contact-pill a{padding:8px 14px;height:36px}
+  #contact-pill span{font-size:9px;letter-spacing:1.2px}
+  #hero{grid-template-columns:1fr;height:auto;padding:100px 6% 60px;gap:40px}
+  .lp{padding:0;text-align:center;align-items:center}
+  .rp{padding:0;align-items:center;justify-content:center}
+  .hname{font-size:clamp(32px,8vw,48px)}
+  .eyebrow{font-size:10px;letter-spacing:2.5px;white-space:normal;text-align:center}
+  .tagline{font-size:15px;text-align:center}
+  .btns{justify-content:center}
+  .gline{margin-left:auto;margin-right:auto}
+  .sblock{max-width:100%;text-align:center}
+  #about{grid-template-columns:1fr;padding:70px 6% 50px;gap:30px}
+  .aimg{padding:0;justify-content:center}
+  .aimg img{max-width:280px;border-radius:12px}
+  .atxt{padding:0}
+  .ahook{font-size:clamp(20px,5vw,28px)}
+  #skills{padding:70px 6% 50px}
+  .skills-grid{grid-template-columns:1fr;gap:20px}
+  .skills-hook{font-size:clamp(24px,6vw,36px)}
+  #work{padding:70px 2% 50px}
+  .cards-grid{grid-template-columns:1fr;gap:20px}
+  .whook{font-size:clamp(24px,6vw,36px)}
+  .dmetrics{grid-template-columns:repeat(3,1fr)}
+  #projects{padding:70px 6% 50px}
+  .proj-grid-new{grid-template-columns:1fr;gap:24px}
+  .phook{font-size:clamp(24px,6vw,36px)}
+  .pcard-top{padding:22px 20px 16px}
+  .pdetail-inner{padding:16px 20px 22px}
+  #education{padding:70px 6% 50px}
+  .edu-stack{max-width:100%}
+  .ehook{font-size:clamp(24px,6vw,36px)}
+  .ecourses{gap:6px}
+  #recognition{padding:70px 6% 50px}
+  .rcards{grid-template-columns:1fr !important;max-width:100% !important}
+  .rhook{font-size:clamp(24px,6vw,36px)}
+  #footer{padding:60px 6% 40px}
+  .fhook{font-size:clamp(24px,6vw,36px)}
+  .fbtns{flex-direction:column;align-items:center;gap:12px}
+  .fbtn{width:100%;max-width:320px;text-align:center;justify-content:center}
+  .flinks{flex-direction:column;align-items:center;gap:10px}
+  .scroll-hint{display:none}
+}
+
+@media (max-width: 480px) {
+  #topnav{padding:7px 10px}
+  .nav-links a{font-size:9px;padding:4px 6px}
+  .nav-icons svg{width:12px;height:12px}
+  #contact-pill span{display:none}
+  #contact-pill a{padding:8px 12px}
+  .hname{font-size:clamp(28px,9vw,40px)}
+  .wmetrics{grid-template-columns:repeat(3,1fr)}
+  .dmetrics{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
