@@ -218,11 +218,65 @@ canvas#bgc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-
 .pdbtxt{text-align:justify;font-family:"DM Sans",sans-serif;font-size:12px;color:#4a4a4a;line-height:1.8}
   
 /* CSS Block Begins for Mobile Layout */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   #navwrap{top:12px}
   #topnav{padding:8px 14px;gap:8px}
   .nav-links{gap:2px}
-  .nav-links a{font-size:10px;padding:5px 8px;letter-spacing:0}
+  .nav-links a{font-size:10px;padding:5px 8px;letter-spacing:0}*/
+  @media (max-width: 768px) {
+  #hamburger{display:flex !important}
+  .nav-links{display:none;position:fixed;top:70px;left:0;width:100%;background:rgba(245,242,235,0.97);backdrop-filter:blur(14px);flex-direction:column;padding:16px;gap:4px;z-index:100;border-bottom:1px solid rgba(80,120,60,0.2)}
+  .nav-links.open{display:flex}
+  .nav-links a{font-size:13px;padding:12px 20px;border-radius:10px;width:100%;text-align:left}
+  .nav-div{display:none}
+  .nav-icons{gap:8px}
+  #contact-pill{top:12px;right:12px}
+  #contact-pill a{padding:8px 14px;height:36px}
+  #contact-pill span{font-size:9px;letter-spacing:1.2px}
+  #navwrap{top:12px}
+  #topnav{padding:8px 16px;gap:8px;justify-content:space-between}
+  #hero{grid-template-columns:1fr;height:auto;padding:100px 6% 60px;gap:40px}
+  .lp{padding:0;text-align:center;align-items:center}
+  .rp{padding:0;align-items:center;justify-content:center}
+  .hname{font-size:clamp(32px,8vw,48px)}
+  .eyebrow{font-size:10px;letter-spacing:2.5px;white-space:normal;text-align:center}
+  .tagline{font-size:15px;text-align:center}
+  .btns{justify-content:center}
+  .gline{margin-left:auto;margin-right:auto}
+  .sblock{max-width:100%;text-align:center}
+  #about{grid-template-columns:1fr;padding:70px 6% 50px;gap:30px}
+  .aimg{padding:0;justify-content:center}
+  .aimg img{max-width:280px;border-radius:12px}
+  .atxt{padding:0}
+  .ahook{font-size:clamp(20px,5vw,28px)}
+  #skills{padding:70px 6% 50px}
+  .skills-grid{grid-template-columns:1fr;gap:20px}
+  .skills-hook{font-size:clamp(24px,6vw,36px)}
+  #work{padding:70px 2% 50px}
+  .cards-grid{grid-template-columns:1fr;gap:20px}
+  .whook{font-size:clamp(24px,6vw,36px)}
+  .dmetrics{grid-template-columns:repeat(3,1fr)}
+  #projects{padding:70px 6% 50px}
+  .proj-grid-new{grid-template-columns:1fr;gap:24px}
+  .phook{font-size:clamp(24px,6vw,36px)}
+  .pcard-top{padding:22px 20px 16px}
+  .pdetail-inner{padding:16px 20px 22px}
+  #education{padding:70px 6% 50px}
+  .edu-stack{max-width:100%}
+  .ehook{font-size:clamp(24px,6vw,36px)}
+  .ecourses{gap:6px}
+  #recognition{padding:70px 6% 50px}
+  .rcards{grid-template-columns:1fr !important;max-width:100% !important}
+  .rhook{font-size:clamp(24px,6vw,36px)}
+  #footer{padding:60px 6% 40px}
+  .fhook{font-size:clamp(24px,6vw,36px)}
+  .fbtns{flex-direction:column;align-items:center;gap:12px}
+  .fbtn{width:100%;max-width:320px;text-align:center;justify-content:center}
+  .flinks{flex-direction:column;align-items:center;gap:10px}
+  .scroll-hint{display:none}
+}
+ /* invisible hamburger icon code ends */
+  
   .nav-div{margin:0 6px}
   .nav-icons{gap:8px}
   #contact-pill{top:12px;right:12px}
@@ -293,9 +347,15 @@ canvas#bgc{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-
     <span>Get In Touch</span>
   </a>
 </div>
-
-<div id="navwrap"><nav id="topnav">
-  <div class="nav-links">
+ 
+  <!-- <div id="navwrap"><nav id="topnav">  -->
+<!-- Code for Hamburger Button Begins -->
+  <div id="navwrap"><nav id="topnav">
+  <button id="hamburger" onclick="toggleMenu()" style="display:none;background:none;border:1.5px solid rgba(80,120,60,0.4);border-radius:8px;cursor:pointer;padding:6px 8px;flex-shrink:0;align-items:center;justify-content:center">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(80,60,30,0.7)" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+<!-- Code for Hamburger Button Ends -->
+  <div class="nav-links" id="nav-links">
     <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About Me</a>
     <a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">Skills</a>
     <a onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">Work Experience</a>
@@ -694,7 +754,15 @@ setTimeout(()=>{
   setTimeout(startB,80);
 },50);
 loop();
-function toggleDetail(id){const panels=["adm-detail","big-detail","alshaya-detail"];const target=document.getElementById(id+"-detail");const isOpen=target.style.display==="block";panels.forEach(p=>document.getElementById(p).style.display="none");if(!isOpen){target.style.display="block";setTimeout(()=>target.scrollIntoView({behavior:"smooth",block:"nearest"}),100);}}
+
+  /* Mobile Layout comment Begins
+function toggleDetail(id){const panels=["adm-detail","big-detail","alshaya-detail"];const target=document.getElementById(id+"-detail");const isOpen=target.style.display==="block";panels.forEach(p=>document.getElementById(p).style.display="none");if(!isOpen){target.style.display="block";setTimeout(()=>target.scrollIntoView({behavior:"smooth",block:"nearest"}),100);}} */
+function toggleMenu(){
+  const links=document.getElementById('nav-links');
+  links.classList.toggle('open');
+}
+function toggleDetail(id){
+  
 function closeDetail(id){document.getElementById(id+"-detail").style.display="none";}
 function togglePD(id,btn){var isOpen=document.getElementById(id+'-detail').classList.contains('open');document.querySelectorAll('.pdetail').forEach(function(d){d.classList.remove('open');});document.querySelectorAll('.pread-arr').forEach(function(a){a.style.transform='';});document.querySelectorAll('.pread-txt').forEach(function(t){t.textContent='Read More';});if(!isOpen){document.getElementById(id+'-detail').classList.add('open');btn.querySelector('.pread-arr').style.transform='rotate(180deg)';btn.querySelector('.pread-txt').textContent='Read Less';}}
 </script>
