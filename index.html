@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f8f7f4;
+  --bg:#faf6ef;
   --blue:#1a75bc;
   --blue-deep:#1a5a8a;
   --blue-light:#4a9fd4;
@@ -36,7 +36,7 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
-#bgcanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:blur(0px);transition:filter 1.5s ease}
+#bgcanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;filter:blur(0px);transition:filter 1.5s ease;will-change:opacity}
 .wrap{position:relative;z-index:2}
 
 /* ===== NAV ===== */
@@ -116,7 +116,7 @@ h2.sh em{font-style:italic;color:var(--rose)}
 
 /* Sanskrit panel */
 .sanskrit-panel{opacity:0;transform:translateY(20px) scale(.97);transition:1s .2s}
-.sanskrit-panel.show{opacity:1;transform:translateY(-30px) scale(1)}
+.sanskrit-panel.show{opacity:1;transform:translateY(-32px) scale(1)}
 .sanskrit{
   border-left:3px solid rgba(26,117,188,0.3);
   padding:18px 0 18px 28px;
@@ -744,11 +744,11 @@ window.addEventListener('load',function(){
   var PAL={blue:'26,117,188',teal:'74,184,196',lav:'196,168,224',purple:'138,74,184',coral:'232,93,122',gold:'232,184,75'};
   function rgba(c,a){return 'rgba('+c+','+a+')';}
 
-  // background blobs (palette tinted)
+  // background blobs (warm cream tint)
   var blobs=[
     {x:.2,y:.3,r:300,c:PAL.lav},
-    {x:.78,y:.22,r:340,c:PAL.blue},
-    {x:.62,y:.74,r:320,c:PAL.teal},
+    {x:.78,y:.22,r:340,c:PAL.gold},
+    {x:.62,y:.74,r:320,c:PAL.lav},
     {x:.34,y:.82,r:280,c:PAL.gold}
   ];
 
@@ -766,26 +766,31 @@ window.addEventListener('load',function(){
   for(var i=0;i<42;i++){glitter.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.5,c:glitCols[(Math.random()*glitCols.length)|0],tw:Math.random()*Math.PI*2,sp:Math.random()*.04+.01});}
 
   // butterfly + flower geometry
-  var landX=W*0.60,landY=H*0.62,startY=H+150;          // enters from below, flies upward
-  var flightFrames=165,vspeed=(startY-landY)/flightFrames; // ~2.7s rise regardless of screen height
+  var landX=W*0.635,landY=H*0.62,startY=H+150;          // enters from below, flies upward
+  var flightFrames=115,vspeed=(startY-landY)/flightFrames; // ~1.9s rise regardless of screen height
   var bx=landX,by=startY,bflap=0,tick=0;
   var bph='fly';                  // 'fly' -> 'landed'
   var fx=landX,fy=landY+130;       // flower base; bloom top aligns with landing point
   var fbloom=0,fblooming=false,sparked=false,fshown=false;
 
   // scroll fade — animation fades out (and pauses) past the hero
-  var canvasAlpha=1,targetAlpha=1;
-  function onScroll(){
+  var canvasAlpha=1,targetAlpha=1,animating=true,scrollTicking=false;
+  function updateScrollFade(){
+    scrollTicking=false;
     var sy=window.scrollY||window.pageYOffset||0;
-    var a=H*0.22,b=H*0.82;
+    var a=H*0.15,b=H*0.48;
     targetAlpha=sy<=a?1:(sy>=b?0:1-(sy-a)/(b-a));
+    if(targetAlpha>0&&!animating){animating=true;requestAnimationFrame(frame);}
+  }
+  function onScroll(){
+    if(!scrollTicking){scrollTicking=true;requestAnimationFrame(updateScrollFade);}
   }
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
   function drawBlobs(){
     blobs.forEach(function(b){
       var g=ctx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,b.r);
-      g.addColorStop(0,rgba(b.c,0.07));g.addColorStop(1,rgba(b.c,0));
+      g.addColorStop(0,rgba(b.c,0.05));g.addColorStop(1,rgba(b.c,0));
       ctx.fillStyle=g;ctx.beginPath();ctx.arc(b.x*W,b.y*H,b.r,0,Math.PI*2);ctx.fill();
     });
   }
@@ -931,19 +936,20 @@ window.addEventListener('load',function(){
 
   function frame(){
     tick++;
-    canvasAlpha+=(targetAlpha-canvasAlpha)*0.09;
+    canvasAlpha+=(targetAlpha-canvasAlpha)*0.28;
     canvas.style.opacity=canvasAlpha.toFixed(3);
-    // once faded out (scrolled past hero), skip all drawing so scrolling stays smooth
-    if(canvasAlpha<0.025&&targetAlpha===0){requestAnimationFrame(frame);return;}
+    // once faded out (scrolled past hero), pause loop so scrolling stays smooth
+    if(canvasAlpha<0.02&&targetAlpha===0){animating=false;return;}
+    var lightDraw=canvasAlpha<0.35;
 
     ctx.clearRect(0,0,W,H);
     var bg=ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,'#f8f7f4');bg.addColorStop(0.5,'#f5f4f8');bg.addColorStop(1,'#f4f5f8');
+    bg.addColorStop(0,'#faf6ef');bg.addColorStop(0.5,'#f9f4ea');bg.addColorStop(1,'#f7f2e6');
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     drawBlobs();
 
-    // ambient glitter twinkle
-    glitter.forEach(function(g){g.tw+=g.sp;var a=(Math.sin(g.tw)*0.5+0.5)*0.5;ctx.fillStyle=rgba(g.c,a);ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,Math.PI*2);ctx.fill();});
+    // ambient glitter twinkle — skip while fading to keep scroll smooth
+    if(!lightDraw){glitter.forEach(function(g){g.tw+=g.sp;var a=(Math.sin(g.tw)*0.5+0.5)*0.5;ctx.fillStyle=rgba(g.c,a);ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,Math.PI*2);ctx.fill();});}
 
     if(bph==='fly'){
       // rises from the bottom, swaying gently, settling onto the landing point
@@ -966,7 +972,7 @@ window.addEventListener('load',function(){
     }
 
     // dust — float up then fall, crosshair shimmer on larger motes
-    for(var i=dust.length-1;i>=0;i--){
+    if(!lightDraw) for(var i=dust.length-1;i>=0;i--){
       var d=dust[i];d.x+=d.vx;d.y+=d.vy;d.vy+=0.04;d.life-=0.014;
       if(d.life<=0){dust.splice(i,1);continue;}
       var rr=d.r*Math.max(d.life,0.25);
